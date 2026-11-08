@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Gift for You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rouge+Script&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, #001f3f, #000000 70%);
+            font-family: 'Handlee', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ফ্লোটিং লাভ ও বেলুন অ্যানিমেশন কন্টেইনার */
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .heart, .balloon {
+            position: absolute;
+            bottom: -60px;
+            animation: riseUp 7s infinite linear;
+            opacity: 0.8;
+        }
+
+        .heart { font-size: 22px; }
+        .balloon { font-size: 32px; filter: drop-shadow(0 0 8px rgba(30, 144, 255, 0.6)); }
+
+        @keyframes riseUp {
+            0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-110vh) translateX(40px) scale(1.1); opacity: 0; }
+        }
+
+        /* মাউস ট্রেইল ইমোজি স্টাইল */
+        .cursor-trail {
+            position: fixed;
+            pointer-events: none;
+            font-size: 14px;
+            animation: fadeOutTrail 0.6s forwards linear;
+            z-index: 9999;
+        }
+
+        @keyframes fadeOutTrail {
+            0% { transform: scale(1) translateY(0); opacity: 1; }
+            100% { transform: scale(0.4) translateY(-30px); opacity: 0; }
+        }
+
+        /* ভুল পাসওয়ার্ডের ব্যাকগ্রাউন্ড কোয়েশ্চেন মার্ক এফেক্ট */
+        .question-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            pointer-events: none;
+            display: none;
+            overflow: hidden;
+        }
+
+        .q-mark {
+            position: absolute;
+            color: rgb(255, 0, 0);
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(0, 191, 255, 0.8);
+            animation: fadeInOut 1s infinite alternate;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0.1; transform: scale(1); }
+            100% { opacity: 0.35; transform: scale(1.05); }
+        }
+
+        .external-title {
+            font-family: 'Handlee', cursive;
+            font-size: 32px;
+            color: #FFFFFF;
+            text-shadow: 0 0 12px rgba(0, 191, 255, 0.8);
+            margin-bottom: 20px;
+            z-index: 10;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .pc-window {
+            background: rgba(10, 10, 20, 0.85);
+            border: 2px solid #1e90ff;
+            box-shadow: 0 0 30px rgba(30, 144, 255, 0.5);
+            border-radius: 16px;
+            width: 320px;
+            padding: 35px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* ২য় পেজের বক্স বড় ও আকর্ষণীয় করা */
+        .second-page-box {
+            width: 520px !important;
+            padding: 45px !important;
+        }
+
+        .title-box h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 38px;
+            color: #00bfff;
+            text-shadow: 0 0 12px rgba(0, 191, 255, 0.8);
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            min-height: 50px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid #00bfff;
+            display: inline-block;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00bfff; }
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #b0c4de;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(176, 196, 222, 0.4);
+        }
+
+        /* হোভার করলে সাদা হয়ে যাওয়ার অ্যানিমেটেড লাভ বক্স */
+        .animated-box {
+            background: linear-gradient(135deg, #000000, #002244);
+            border: 1px solid #00bfff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 18px rgba(0, 191, 255, 0.3);
+            transition: all 0.4s ease-in-out;
+            cursor: pointer;
+        }
+
+        .animated-box:hover {
+            background: #ffffff;
+            border-color: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
+            transform: scale(1.03);
+        }
+
+        .animated-box p {
+            font-size: 26px;
+            color: #ff4d4d;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+            transition: color 0.4s ease-in-out;
+        }
+
+        .animated-box:hover p {
+            color: #ff1a75;
+            text-shadow: 0 0 10px rgba(255, 26, 117, 0.6);
+        }
+
+        /* Together with স্টাইল */
+        .together-text {
+            font-size: 16px;
+            color: #ffb6c1;
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 8px rgba(255, 182, 193, 0.6);
+        }
+
+        .pass-screen {
+            width: 100%;
+            height: 45px;
+            background: #000000;
+            border: 1px solid #1e90ff;
+            border-radius: 8px;
+            color: #00ffff;
+            font-size: 20px;
+            letter-spacing: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .key-btn {
+            background: rgba(30, 144, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid #1e90ff;
+            aspect-ratio: 1 / 1;
+            font-family: 'Handlee', cursive;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .key-btn:hover { background: #1e90ff; box-shadow: 0 0 10px rgba(30, 144, 255, 0.8); transform: scale(1.03); }
+        .key-btn.clear { background: rgba(255, 77, 77, 0.2); border-color: #ff4d4d; color: #ff4d4d; }
+        .key-btn.clear:hover { background: #ff4d4d; color: #ffffff; }
+        .key-btn.enter { background: rgba(0, 255, 128, 0.2); border-color: #00ff80; color: #00ff80; }
+        .key-btn.enter:hover { background: #00ff80; color: #000000; }
+
+        .btn {
+            background: linear-gradient(135deg, #1e90ff, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+        }
+
+        .btn:hover { background: linear-gradient(135deg, #00bfff, #1e90ff); box-shadow: 0 0 15px rgba(0, 191, 255, 0.8); transform: scale(1.05); }
+
+        #error-msg { color: #ff4d4d; font-size: 14px; margin-top: 10px; display: none; }
+
+        /* ৩য় পেজ */
+        .third-page-container {
+            display: none;
+            gap: 25px;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .letter-paper {
+            background: #fff5d7;
+            color: #333333;
+            width: 460px;
+            padding: 35px;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-family: 'Rouge Script', cursive;
+            font-size: 22px;
+            line-height: 1.8;
+            border-left: 4px solid #ff4d4d;
+            background-image: repeating-linear-gradient(#fff5d7, #fff5d7 31px, #e2d2a5 32px);
+            transition: transform 0.3s ease;
+        }
+
+        .letter-paper:hover {
+            transform: rotate(2deg) scale(1.02);
+        }
+
+        .letter-paper h3 { color: #ff4d4d; margin-bottom: 15px; font-size: 24px; }
+
+        .love-note-card {
+            background: #ffffff;
+            color: #333333;
+            width: 220px;
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .love-note-card h2 { font-family: 'Caveat', cursive; color: #ff4d4d; font-size: 38px; margin-bottom: 15px; }
+        .love-note-card p { font-size: 14px; color: #666; margin-bottom: 25px; font-family: 'Handlee', cursive; }
+
+        .game-btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: 'Handlee', cursive;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
+            transition: 0.3s;
+        }
+        .game-btn:hover { background: #e03e3e; transform: scale(1.05); }
+
+        /* ৪র্থ পেজ */
+        .fourth-page-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            width: 850px;
+            background: rgba(15, 10, 25, 0.85);
+            border: 2px solid #1e90ff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(30, 144, 255, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .memories-header { text-align: center; margin-bottom: 20px; }
+        .memories-header h4 { font-size: 12px; letter-spacing: 3px; color: #b0c4de; text-transform: uppercase; }
+        .memories-header h2 { font-family: 'Cinzel', serif; font-size: 32px; color: #00bfff; text-shadow: 0 0 10px rgba(0, 191, 255, 0.6); }
+
+        .memories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(30, 144, 255, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .memory-img-box { width: 100%; height: 120px; background: #111; position: relative; overflow: hidden; }
+        
+        .memory-img-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: filter 0.3s ease;
+        }
+
+        .memory-card:hover .memory-img-box img {
+            filter: brightness(0.6);
+        }
+
+        .badge { position: absolute; top: 8px; right: 8px; background: rgba(0, 0, 0, 0.7); color: #00bfff; font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid #1e90ff; }
+        .memory-caption { padding: 8px 10px; font-size: 14px; color: #fff; font-family: 'Handlee', cursive; }
+        .memories-footer { display: flex; justify-content: space-between; align-items: center; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .signature-text { color: #ff4d4d; font-family: 'Caveat', cursive; font-size: 22px; }
+
+        /* ৫ম পেজ */
+        .fifth-page-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            background: 
+                radial-gradient(circle, rgba(0, 31, 63, 0.6) 0%, rgba(0, 0, 0, 0.95) 80%),
+                repeating-linear-gradient(45deg, rgba(30, 144, 255, 0.03) 0px, rgba(30, 144, 255, 0.03) 2px, transparent 2px, transparent 10px);
+            padding: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .arabic-title { font-size: 38px; color: #00bfff; text-shadow: 0 0 15px rgba(0, 191, 255, 0.6); margin-bottom: 15px; font-family: 'Cinzel', serif; }
+        .ornament-divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 25px; width: 300px; }
+        .ornament-divider .line { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, #00bfff, transparent); }
+        .ornament-divider span { color: #00bfff; font-size: 16px; }
+        .arabic-quote { font-size: 18px; color: #e0e0e0; max-width: 650px; line-height: 1.8; font-family: 'Handlee', cursive; margin-bottom: 35px; }
+
+        /* ৬ষ্ঠ পেজ */
+        .sixth-page-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            background: 
+                radial-gradient(circle, rgba(0, 31, 63, 0.6) 0%, rgba(0, 0, 0, 0.95) 80%),
+                repeating-linear-gradient(45deg, rgba(30, 144, 255, 0.03) 0px, rgba(30, 144, 255, 0.03) 2px, transparent 2px, transparent 10px);
+            padding: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .couple-title {
+            font-family: 'Cinzel', serif;
+            font-size: 42px;
+            color: #ff4d4d;
+            text-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .promise-arabic {
+            font-size: 26px;
+            color: #00bfff;
+            text-shadow: 0 0 12px rgba(0, 191, 255, 0.6);
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-family: 'Cinzel', serif;
+            text-align: center;
+        }
+
+        .promise-text {
+            font-size: 18px;
+            color: #ffffff;
+            max-width: 650px;
+            line-height: 1.6;
+            font-family: 'Handlee', cursive;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .promise-bangla {
+            font-size: 24px;
+            color: #ffb6c1;
+            font-weight: bold;
+            font-family: 'Handlee', cursive;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ব্যাকগ্রাউন্ড বেলুন ও লাভ অ্যানিমেশন কন্টেইনার -->
+    <div class="floating-hearts" id="heart-container"></div>
+
+    <!-- ভুল পাসওয়ার্ড কোয়েশ্চেন মার্ক -->
+    <div class="question-bg" id="question-container">
+        <div class="q-mark" style="top: 10%; left: 15%; font-size: 90px; transform: rotate(-15deg);">?</div>
+        <div class="q-mark" style="top: 60%; left: 10%; font-size: 120px; transform: rotate(25deg);">?</div>
+        <div class="q-mark" style="top: 20%; right: 12%; font-size: 110px; transform: rotate(10deg);">?</div>
+    </div>
+
+    <!-- ১. পাসওয়ার্ড পেজ -->
+    <div class="external-title" id="page-title">Enter Secret Passcode</div>
+    <div class="pc-window" id="login-box">
+        <div class="pass-screen" id="pass-display"></div>
+        <div class="keypad">
+            <button class="key-btn" onclick="pressKey('1')">1</button>
+            <button class="key-btn" onclick="pressKey('2')">2</button>
+            <button class="key-btn" onclick="pressKey('3')">3</button>
+            <button class="key-btn" onclick="pressKey('4')">4</button>
+            <button class="key-btn" onclick="pressKey('5')">5</button>
+            <button class="key-btn" onclick="pressKey('6')">6</button>
+            <button class="key-btn" onclick="pressKey('7')">7</button>
+            <button class="key-btn" onclick="pressKey('8')">8</button>
+            <button class="key-btn" onclick="pressKey('9')">9</button>
+            <button class="key-btn clear" onclick="clearKey()">❌</button>
+            <button class="key-btn" onclick="pressKey('0')">0</button>
+            <button class="key-btn enter" onclick="checkPassword()">✅</button>
+        </div>
+        <p id="error-msg">Wrong Password! Try again.</p>
+    </div>
+
+    <!-- ২. মেইন পেজ (টাইপিং এফেক্ট, হোভার হোয়াইট বক্স ও কাউন্টডাউন সহ) -->
+    <div class="pc-window second-page-box" id="main-content" style="display: none;">
+        <div class="title-box">
+            <h1 id="typing-text"></h1>
+        </div>
+        <div class="subtitle">My queenn.. bouu jannnnn...</div>
+        
+        <!-- হোভার করলে সাদা হওয়া বক্স -->
+        <div class="animated-box">
+            <p>I love youu ❤️</p>
+        </div>
+
+        <!-- Together with লেখা -->
+        <div class="together-text">Together with our endless love & sweet moments ✨</div>
+
+        <!-- লাইভ কাউন্টডাউন বক্স (12 Aug 2026 থেকে শুরু) -->
+        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 20px;">
+            <div style="background: rgba(0,0,0,0.6); border: 1px solid #1e90ff; padding: 6px; border-radius: 6px; font-size: 11px; color: #00bfff; width: 60px;">
+                <span id="days" style="font-size: 16px; font-weight: bold; color: #fff;">0</span><br>Days
+            </div>
+            <div style="background: rgba(0,0,0,0.6); border: 1px solid #1e90ff; padding: 6px; border-radius: 6px; font-size: 11px; color: #00bfff; width: 55px;">
+                <span id="hours" style="font-size: 16px; font-weight: bold; color: #fff;">0</span><br>Hours
+            </div>
+            <div style="background: rgba(0,0,0,0.6); border: 1px solid #1e90ff; padding: 6px; border-radius: 6px; font-size: 11px; color: #00bfff; width: 55px;">
+                <span id="minutes" style="font-size: 16px; font-weight: bold; color: #fff;">0</span><br>Mins
+            </div>
+            <div style="background: rgba(0,0,0,0.6); border: 1px solid #1e90ff; padding: 6px; border-radius: 6px; font-size: 11px; color: #00bfff; width: 55px;">
+                <span id="seconds" style="font-size: 16px; font-weight: bold; color: #fff;">0</span><br>Secs
+            </div>
+        </div>
+
+        <button class="btn" onclick="goToThirdPage()">Next Page ➔</button>
+    </div>
+
+    <!-- ৩. ৩য় পেজ -->
+    <div class="third-page-container" id="third-page" style="display: none;">
+        <div class="letter-paper">
+            <h3>My Dearest Tumpa Rani,</h3>
+            <p>On your special day, I want you to know how much you mean to me. You are the most beautiful, amazing, and wonderful person in my life. Thank you for bringing so much joy, laughter, and endless love into my world.</p>
+            <p style="margin-top: 15px; text-align: right;"><b>All my love, Your King ❤️</b></p>
+        </div>
+        <div class="love-note-card">
+            <h2>A Love Note</h2>
+            <p>A few words from the bottom of my heart.</p>
+            <button class="game-btn" onclick="goToFourthPage()">Next Surprise 🎁</button>
+        </div>
+    </div>
+
+    <!-- ৪. ৪র্থ পেজ -->
+    <div class="fourth-page-container" id="fourth-page" style="display: none;">
+        <div class="memories-header">
+            <h4>Six Little Chapters of Us</h4>
+            <h2>Our Memories</h2>
+        </div>
+        <div class="memories-grid">
+            <div class="memory-card"><div class="memory-img-box"><img src="photo1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300'"><span class="badge">01</span></div><div class="memory-caption">Your smile</div></div>
+            <div class="memory-card"><div class="memory-img-box"><img src="photo2.jpg" onerror="this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=300'"><span class="badge">02</span></div><div class="memory-caption">Our laughter</div></div>
+            <div class="memory-card"><div class="memory-img-box"><img src="photo3.jpg" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300'"><span class="badge">03</span></div><div class="memory-caption">Golden moments</div></div>
+            <div class="memory-card"><div class="memory-img-box"><img src="photo4.jpg" onerror="this.src='https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=300'"><span class="badge">04</span></div><div class="memory-caption">Little adventures</div></div>
+            <div class="memory-card"><div class="memory-img-box"><img src="photo5.jpg" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300'"><span class="badge">05</span></div><div class="memory-caption">Quiet magic</div></div>
+            <div class="memory-card"><div class="memory-img-box"><img src="photo6.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300'"><span class="badge">06</span></div><div class="memory-caption">Always us</div></div>
+        </div>
+        <div class="memories-footer">
+            <div class="signature-text">Ovi ❤️ Tumpa</div>
+            <button class="btn" onclick="goToFifthPage()">Continue ➔</button>
+        </div>
+    </div>
+
+    <!-- ৫. ৫ম পেজ -->
+    <div class="fifth-page-container" id="fifth-page">
+        <div class="arabic-title">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="ornament-divider"><div class="line"></div><span>❖</span><div class="line"></div></div>
+        <div class="arabic-quote">"Two souls, one heart. With the blessings of Allah (SWT) and our beloved families, we invite you to share in the joy of our new beginning."</div>
+        <button class="btn" onclick="goToSixthPage()">Continue ➔</button>
+    </div>
+
+    <!-- ৬. ৬ষ্ঠ পেজ -->
+    <div class="sixth-page-container" id="sixth-page">
+        <div class="couple-title">Ovi & Tumpa</div>
+        <div class="ornament-divider"><div class="line"></div><span>❤️</span><div class="line"></div></div>
+        
+        <div class="promise-arabic">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا</div>
+        <div style="font-size: 14px; color: #00bfff; margin-bottom: 15px; font-family: 'Handlee', cursive;">
+            (সূরা আর-রূম: ২১)
+        </div>
+
+        <div class="promise-text">
+            "আর তাঁর এক নিদর্শন এই যে, তিনি তোমাদের জন্য তোমাদের মধ্য থেকেই সঙ্গিনীদের সৃষ্টি করেছেন, যাতে তোমরা তাদের কাছে শান্তি পাও..."
+        </div>
+        <div class="promise-bangla">
+            "ইনশাআল্লাহ, আমি তোমাকে বিয়ে করবো।" ✨
+        </div>
+        <button class="btn" onclick="alert('Forever Together, My Love! ❤️')">Ummmmaahhh kuchu Puchu😘</button>
+    </div>
+
+    <script>
+        // ব্যাকগ্রাউন্ডে বেলুন ও লাভ ভাসানোর কোড
+        function createBalloonOrHeart() {
+            const container = document.getElementById('heart-container');
+            const el = document.createElement('div');
+            
+            const isBalloon = Math.random() > 0.5;
+            el.className = isBalloon ? 'balloon' : 'heart';
+            
+            const items = isBalloon ? ['🤍', '💙'] : ['🤍', '💙'];
+            el.innerHTML = items[Math.floor(Math.random() * items.length)];
+            
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 4 + 5) + 's';
+            container.appendChild(el);
+            
+            setTimeout(() => { el.remove(); }, 9000);
+        }
+        setInterval(createBalloonOrHeart, 400);
+
+        // টাইপিং ইফেক্ট লজিক
+        const textToType = "Tumpaa Raniiiiiii";
+        let typingIndex = 0;
+        function startTypingEffect() {
+            const typingElement = document.getElementById("typing-text");
+            if (typingIndex < textToType.length) {
+                typingElement.innerHTML += textToType.charAt(typingIndex);
+                typingIndex++;
+                setTimeout(startTypingEffect, 120);
+            }
+        }
+
+        // লাইভ কাউন্টডাউন কোড
+        function updateCounter() {
+            const startDate = new Date("August 12, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = now - startDate;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days;
+                document.getElementById("hours").innerText = hours;
+                document.getElementById("minutes").innerText = minutes;
+                document.getElementById("seconds").innerText = seconds;
+            }
+        }
+        setInterval(updateCounter, 1000);
+
+        // মাউস কার্সর ট্রেইল (ছোট এবং প্রচুর লাভ ইমোজি)
+        const trailEmojis = ['❤️', '💖', '🌹', '✨', '💗', '💕', '💘'];
+        let lastTime = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            const currentTime = Date.now();
+            if (currentTime - lastTime > 15) {
+                lastTime = currentTime;
+                
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+                
+                trail.style.left = (e.clientX + (Math.random() * 10 - 5)) + 'px';
+                trail.style.top = (e.clientY + (Math.random() * 10 - 5)) + 'px';
+                
+                document.body.appendChild(trail);
+
+                setTimeout(() => {
+                    trail.remove();
+                }, 600);
+            }
+        });
+
+        let enteredPassword = "";
+        const correctPassword = "120826";
+
+        function pressKey(num) {
+            if (enteredPassword.length < 6) {
+                enteredPassword += num;
+                updateDisplay();
+            }
+        }
+
+        function clearKey() {
+            enteredPassword = "";
+            updateDisplay();
+            document.getElementById('error-msg').style.display = 'none';
+            document.getElementById('question-container').style.display = 'none';
+        }
+
+        function updateDisplay() {
+            document.getElementById('pass-display').innerText = "•".repeat(enteredPassword.length);
+        }
+
+        function checkPassword() {
+            if (enteredPassword === correctPassword) {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('page-title').style.display = 'none';
+                document.getElementById('question-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                
+                // পাসওয়ার্ড সঠিক হলে টাইপিং ইফেক্ট শুরু হবে
+                startTypingEffect();
+            } else {
+                let error = document.getElementById('error-msg');
+                error.style.display = 'block';
+                document.getElementById('question-container').style.display = 'block';
+                enteredPassword = "";
+                updateDisplay();
+            }
+        }
+
+        function goToThirdPage() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('third-page').style.display = 'flex';
+        }
+
+        function goToFourthPage() {
+            document.getElementById('third-page').style.display = 'none';
+            document.getElementById('fourth-page').style.display = 'flex';
+        }
+
+        function goToFifthPage() {
+            document.getElementById('fourth-page').style.display = 'none';
+            document.getElementById('fifth-page').style.display = 'flex';
+        }
+
+        function goToSixthPage() {
+            document.getElementById('fifth-page').style.display = 'none';
+            document.getElementById('sixth-page').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
